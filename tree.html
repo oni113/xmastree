@@ -1,0 +1,70 @@
+<html>
+<head>
+<script type="text/javascript" src="http://code.jquery.com/jquery-latest.min.js"></script>
+<script type="text/javascript">
+function getNtimeOdd(times, maxLimit) {
+    var timesOdd = 1;
+    var oddCount = 0;
+        for (var i = 1; i < maxLimit; i++) {
+            if (i % 2 == 1) {
+            timesOdd = i;
+            oddCount++;
+        }
+        if (times === oddCount) {
+            return timesOdd;
+        }
+    }
+}
+
+function getLeaves(leaves, max) {
+    var $leaves = '';
+    const blank = '&nbsp;';
+    const leap = (leaves === 1) ? '☆' : '*';
+    for (var i = 1; i <= Math.trunc((max - leaves) /2); i++) {
+            $leaves += blank;
+    }
+    for (var i = 1; i <= leaves ; i++) {
+            $leaves += leap;
+    }
+    return $leaves;
+}
+
+function drawTree() {
+    var floor = Number($('#floor').val());
+    $tree = '';
+
+    if (floor > 0) {
+        var lastFloorLeaves = getNtimeOdd(floor, $('#floor').attr('max'));
+        $tree = "";
+        var maxLimit = $('#floor').attr('max');
+        var $floorLeaves = '';
+        for (var i = 1; i <= floor; i++) {
+            var leaves = getNtimeOdd(i, maxLimit);
+            console.log(getLeaves(leaves, lastFloorLeaves));
+            $floorLeaves += '<li>' + getLeaves(leaves, lastFloorLeaves) + '</li>';
+        }
+        $tree = '<ul>' + $floorLeaves + '</ul>';
+    } else {
+        $tree = '<p>그럴꺼야?</p>';
+    }
+
+    $('#ground').html($tree);
+}
+
+$(document).ready(function () {
+    const $btnDrawTree = $('#btn_draw_tree');
+    if ($btnDrawTree) {
+        $btnDrawTree.on('click', drawTree);
+    }
+});
+</script>
+</head>
+<body>
+<div>
+    <form name="treeForm">
+            <span><label for="floor">층수는?</label> <input type="number" id="floor" name="floor" min="1" max="100" style="width:60px;"/> <input type="button" id="btn_draw_tree" value="그리기"/></span>
+    </form>
+</div>
+<div id="ground"></div>
+</body>
+</html>
