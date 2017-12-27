@@ -2,18 +2,8 @@
 <head>
 <script type="text/javascript" src="http://code.jquery.com/jquery-latest.min.js"></script>
 <script type="text/javascript">
-function getNtimeOdd(times, maxLimit) {
-    var timesOdd = 1;
-    var oddCount = 0;
-        for (var i = 1; i < maxLimit; i++) {
-            if (i % 2 == 1) {
-            timesOdd = i;
-            oddCount++;
-        }
-        if (times === oddCount) {
-            return timesOdd;
-        }
-    }
+function getNtimeOdd(times) {
+    return (times * 2) - 1;
 }
 
 function getLeaves(leaves, max) {
@@ -34,12 +24,11 @@ function drawTree() {
     $tree = '';
 
     if (floor > 0) {
-        var lastFloorLeaves = getNtimeOdd(floor, $('#floor').attr('max'));
+        var lastFloorLeaves = getNtimeOdd(floor);
         $tree = "";
-        var maxLimit = $('#floor').attr('max');
         var $floorLeaves = '';
         for (var i = 1; i <= floor; i++) {
-            var leaves = getNtimeOdd(i, maxLimit);
+            var leaves = getNtimeOdd(i);
             console.log(getLeaves(leaves, lastFloorLeaves));
             $floorLeaves += '<li>' + getLeaves(leaves, lastFloorLeaves) + '</li>';
         }
